@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maple World</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --green: #5ab52f;
+      --dark-green: #3a8020;
+      --yellow: #ffcc00;
+      --sky: #b8eaff;
+      --cloud: #ffffff;
+      --ink: #1a1a1a;
+      --soft: #f5fbff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--sky);
+      color: var(--ink);
+    }
+
+    /* ─── PIXEL FONT UTIL ─── */
+    .px { font-family: 'Press Start 2P', monospace; }
+
+    /* ─── HEADER ─── */
+    header {
+      background: var(--green);
+      border-bottom: 4px solid var(--dark-green);
+      padding: 14px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+.logo-img {
+  width: 260px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+    header h1 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 13px;
+      color: #fff;
+      text-shadow: 2px 2px 0 var(--dark-green);
+      letter-spacing: 1px;
+    }
+
+    nav {
+      display: flex;
+      gap: 24px;
+    }
+
+    nav a {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 9px;
+      color: #fff;
+      text-decoration: none;
+      padding: 6px 10px;
+      border: 2px solid transparent;
+      border-radius: 6px;
+      transition: all 0.15s;
+    }
+
+    nav a:hover {
+      border-color: #fff;
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      height: 460px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      padding-bottom: 60px;
+    }
+
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      background: url('https://theophay.com/wp-content/uploads/2015/05/maplestory-basilmarket-screen-230815-1.jpg') center top/cover no-repeat;
+      background-size: auto;  
+    }
+
+
+    .hero-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.55));
+    }
+
+    .hero-text {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      text-align: center;
+      color: #fff;
+      padding: 0 20px;
+    }
+
+    .hero-text h2 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 28px;
+      text-shadow: 3px 3px 0 #000;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
+    .hero-text p {
+      font-size: 16px;
+      font-weight: 600;
+      text-shadow: 1px 1px 0 #000;
+      margin-bottom: 22px;
+      opacity: 0.9;
+    }
+
+    .btn {
+      display: inline-block;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      background: var(--yellow);
+      color: #333;
+      padding: 12px 22px;
+      border: 3px solid #b89000;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.1s, box-shadow 0.1s;
+      box-shadow: 0 4px 0 #b89000;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 #b89000;
+    }
+
+    .btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #b89000;
+    }
+
+    /* ─── GROUND STRIP ─── */
+    .ground {
+      height: 20px;
+      background: var(--green);
+      border-top: 4px solid var(--dark-green);
+    }
+
+    /* ─── SECTIONS ─── */
+    section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 60px 24px;
+    }
+
+    section h2 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 14px;
+      color: var(--dark-green);
+      margin-bottom: 28px;
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+    }
+
+    /* ─── ABOUT BOX ─── */
+    .about-box {
+      background: var(--cloud);
+      border: 3px solid var(--green);
+      border-radius: 16px;
+      padding: 28px 32px;
+      font-size: 17px;
+      line-height: 1.8;
+      box-shadow: 0 6px 0 var(--green);
+    }
+
+    /* ─── CARDS ─── */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--cloud);
+      border: 3px solid var(--yellow);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 5px 0 #c8a000;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 0 #c8a000;
+    }
+
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block;
+      border-bottom: 3px solid var(--yellow);
+    }
+
+    .card img.sprite {
+      object-fit: contain;
+      background: #f0f4ff;
+      padding: 10px;
+    }
+
+    .card-body {
+      padding: 18px;
+    }
+
+    .card-body h3 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      color: #e07800;
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+
+    .card-body p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    /* ─── GALLERY ─── */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border: 3px solid var(--cloud);
+      border-radius: 16px;
+      box-shadow: 0 6px 0 var(--dark-green);
+      transition: transform 0.15s;
+    }
+
+    .gallery img:hover {
+      transform: translateY(-4px);
+    }
+
+    /* ─── BG ALTERNATION ─── */
+    .bg-white { background: var(--soft); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--dark-green);
+      color: #fff;
+      text-align: center;
+      padding: 28px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 9px;
+      line-height: 2;
+      border-top: 4px solid #2a6015;
+    }
+
+    /* ─── LOOT DROP ─── */
+    .loot-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .loot-chest {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      background: var(--cloud);
+      border: 3px solid var(--yellow);
+      border-radius: 20px;
+      padding: 28px 40px;
+      box-shadow: 0 6px 0 #c8a000;
+      transition: transform 0.1s, box-shadow 0.1s;
+      user-select: none;
+    }
+
+    .loot-chest:hover { transform: translateY(-3px); box-shadow: 0 9px 0 #c8a000; }
+    .loot-chest:active { transform: translateY(3px); box-shadow: 0 3px 0 #c8a000; }
+
+    .chest-emoji { font-size: 52px; display: block; }
+
+    .chest-hint {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: #aaa;
+    }
+
+    .loot-result {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 11px;
+      min-height: 36px;
+      text-align: center;
+      line-height: 2;
+    }
+
+    .loot-result.rarity-common  { color: #888; }
+    .loot-result.rarity-uncommon { color: var(--dark-green); }
+    .loot-result.rarity-rare    { color: #1a7fd4; }
+    .loot-result.rarity-epic    { color: #9b30d0; }
+    .loot-result.rarity-legendary { color: #e07800; }
+
+    @keyframes pop {
+      0%   { transform: scale(0.5); opacity: 0; }
+      60%  { transform: scale(1.15); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+
+    .loot-result.animate { animation: pop 0.3s ease-out; }
+
+    .loot-log {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 160px;
+      overflow-y: auto;
+    }
+
+    .log-entry {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--cloud);
+      border: 2px solid #e8e8e8;
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 13px;
+      animation: pop 0.2s ease-out;
+    }
+
+    .log-entry .log-name { font-weight: 700; }
+    .log-entry .log-rarity {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      padding: 3px 7px;
+      border-radius: 6px;
+    }
+
+    .log-entry.rarity-common  .log-rarity { background: #eee; color: #888; }
+    .log-entry.rarity-uncommon .log-rarity { background: #d8f5d0; color: var(--dark-green); }
+    .log-entry.rarity-rare    .log-rarity { background: #d0e8ff; color: #1a7fd4; }
+    .log-entry.rarity-epic    .log-rarity { background: #ead5f7; color: #9b30d0; }
+    .log-entry.rarity-legendary .log-rarity { background: #fff0cc; color: #e07800; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 720px) {
+      header { padding: 12px 20px; }
+      header h1 { font-size: 10px; }
+      nav a { font-size: 8px; padding: 4px 8px; }
+      .hero-text h2 { font-size: 18px; }
+      .cards, .gallery { grid-template-columns: 1fr; }
+      section { padding: 40px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img class="logo-img" src="https://www.logo.wine/a/logo/MapleStory/MapleStory-Logo.wine.svg" alt="Maple World logo">
+    <nav>
+      <a href="#about">About</a>
+      <a href="#jobs">Jobs</a>
+      <a href="#monsters">Monsters</a>
+      <a href="#loot">Loot</a>
+      <a href="#gallery">Gallery</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="hero-img"></div>
+    <div class="hero-text">
+      <h2>Welcome to<br>Maple World</h2>
+      <p>Monsters, nostalgia, and a lot of slimes.</p>
+      <a class="btn" href="#about">Start Adventure</a>
+    </div>
+  </div>
+
+  <div class="ground"></div>
+
+  <section id="about">
+    <h2>About the Game</h2>
+    <div class="about-box">
+      MapleStory is a 2D online RPG launched in 2003 — colorful maps, hundreds of monsters, and a progression system that kept millions playing for years. You pick a class, explore towns, grind mobs, level up, and get lost in nostalgia. Simple idea. Endless hours.
+    </div>
+  </section>
+
+  <div class="bg-white">
+    <section id="jobs">
+      <h2>Favorite Jobs</h2>
+      <div class="cards">
+
+        <div class="card">
+          <img src="https://nxcache.nexon.net/cms/2020/q1/1796/thief_red.png?width=351px&height=385px" alt="Thief class" class="sprite">
+          <div class="card-body">
+            <h3>Thief</h3>
+            <p>Fast, stylish and sneaky. Throwing stars and Haste — the coolest first job.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="https://nxcache.nexon.net/cms/2020/q2/1365/magician.png?width=329px&height=403px" alt="Magician class" class="sprite">
+          <div class="card-body">
+            <h3>Magician</h3>
+            <p>Magic, elements and glowing spells. Fantasy vibes, colorful and satisfying.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="https://g.nexonstatic.com/media/4pafumjw/250723-ms-classesjobs-update-hero-395x400-v3.png" alt="Warrior class" class="sprite">
+          <div class="card-body">
+            <h3>Warrior</h3>
+            <p>Simple, powerful, close range. A beginner classic for a reason.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <section id="monsters">
+    <h2>Iconic Monsters</h2>
+    <div class="cards">
+
+      <div class="card">
+        <img src="https://media.tenor.com/PIcBqKDICFwAAAAe/mushroom-maple-story.png" alt="Orange Mushroom" class="sprite">
+        <div class="card-body">
+          <h3>Orange Mushroom</h3>
+          <p>The most iconic mob in the game. You've killed thousands.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://i.pinimg.com/736x/98/5b/77/985b77b83ee2ff65b08dbba5b7e74688.jpg" alt="Slime" class="sprite">
+        <div class="card-body">
+          <h3>Slime</h3>
+          <p>Cute, classic, and satisfying to pop. A starter staple.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://ih1.redbubble.net/image.4662971019.9549/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8.jpg" alt="Snail" class="sprite">
+        <div class="card-body">
+          <h3>Snail</h3>
+          <p>The first enemy most players remember. Tutorial mob legend.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="loot">
+    <h2>Random drop</h2>
+    <div class="loot-area">
+      <div class="loot-chest" id="chest" onclick="dropLoot()" title="Click to open">
+        <span class="chest-emoji">📦</span>
+        <p class="chest-hint">defeat a monster</p>
+      </div>
+      <div class="loot-result" id="loot-result"></div>
+      <div class="loot-log" id="loot-log"></div>
+    </div>
+  </section>
+
+  <div class="bg-white">
+    <section id="gallery">
+      <h2>Maple Gallery</h2>
+      <div class="gallery">
+        <img src="https://i.ytimg.com/vi/s2_MAplvHeQ/maxresdefault.jpg" alt="Henesys town">
+        <img src="https://maplerulez.wordpress.com/wp-content/uploads/2011/08/kerning-city.jpg?w=640" alt="Kerning City">
+        <img src="https://i.ytimg.com/vi/XYtHWyrVm30/maxresdefault.jpg" alt="Ellinia magic forest">
+        <img src="https://external-preview.redd.it/kms-1-2-247-zakum-revamp-v0-BfL-gNz33m7TV6qDmB3Vz2NtogfvfPjEu_wUKbpl9Xg.jpg?auto=webp&s=579b68cf9b897a148ccdfcb2bf26d050bcbf4394" alt="Zakum">
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    🍁 Maple World — a personal fan page &nbsp;|&nbsp; Made with love and nostalgia
+  </footer>
+
+  <script>
+    const LOOT = [
+  { name: "10 Mesos",              emoji: "🪙", rarity: "common",   weight: 35 },
+  { name: "50 Mesos",              emoji: "🪙", rarity: "common",   weight: 25 },
+  { name: "Snail Shell",           emoji: "🐚", rarity: "common",   weight: 24 },
+  { name: "Blue Snail Shell",      emoji: "🐚", rarity: "common",   weight: 20 },
+  { name: "Red Snail Shell",       emoji: "🐚", rarity: "common",   weight: 18 },
+  { name: "Mushroom Spore",        emoji: "🍄", rarity: "common",   weight: 16 },
+  { name: "Orange Mushroom Cap",   emoji: "🍄", rarity: "uncommon", weight: 12 },
+  { name: "Slime Bubble",          emoji: "🟢", rarity: "uncommon", weight: 10 },
+  { name: "Pig Ribbon",            emoji: "🎀", rarity: "uncommon", weight: 8 },
+  { name: "Tree Branch",           emoji: "🌿", rarity: "common",   weight: 14 }
+];
+
+    const RARITY_LABEL = {
+      common: "Common", uncommon: "Uncommon",
+      rare: "Rare", epic: "Epic", legendary: "Legendary"
+    };
+
+    function weightedRandom() {
+      const total = LOOT.reduce((s, i) => s + i.weight, 0);
+      let r = Math.random() * total;
+      for (const item of LOOT) {
+        r -= item.weight;
+        if (r <= 0) return item;
+      }
+      return LOOT[0];
+    }
+
+    function dropLoot() {
+      const item = weightedRandom();
+      const result = document.getElementById('loot-result');
+      const log    = document.getElementById('loot-log');
+
+      result.className = 'loot-result rarity-' + item.rarity;
+      result.textContent = item.emoji + '  ' + item.name;
+      void result.offsetWidth;
+      result.classList.add('animate');
+
+      const entry = document.createElement('div');
+      entry.className = 'log-entry rarity-' + item.rarity;
+      entry.innerHTML = `<span class="log-name">${item.emoji} ${item.name}</span><span class="log-rarity">${RARITY_LABEL[item.rarity]}</span>`;
+      log.prepend(entry);
+    }
+  </script>
+</body>
+</html>
